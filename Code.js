@@ -5,19 +5,22 @@ var countySheet = sSheetMatrix.getSheetByName("COUNTY");
 var deletedClientsSheet = sSheetMatrix.getSheetByName("deletedCLIENTS");
 
 function doGet(){ 
-  var html = HtmlService.createTemplateFromFile("ClientInfo");
-  var output = html.evaluate();
+  var html = HtmlService.createTemplateFromFile("MainPage/IndexPage");
+  var output = html.evaluate().setTitle("Wizer Energy LTD");
   output.addMetaTag('viewport','width = device-width, initial-select');
   //console.log(output);
   return output;
 }
 
-function include(fileName){
-  return HtmlService.createHtmlOutputFromFile(fileName).getContent();
+function includeHTML(fileName){
+  //return HtmlService.createHtmlOutputFromFile(fileName).getContent();
+  var output = HtmlService.createTemplateFromFile(fileName).evaluate().getContent();
+  return output;
 }
 
 function obtenerContenidoHTML(page){
-  const contenidoHTML = HtmlService.createHtmlOutputFromFile(page).getContent();
+  //const contenidoHTML = HtmlService.createHtmlOutputFromFile(page).getContent();
+  var contenidoHTML = HtmlService.createTemplateFromFile(fileName).evaluate().getContent();
   return contenidoHTML;
 }
 // -----------------------------------------
