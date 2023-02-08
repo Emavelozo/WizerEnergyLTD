@@ -1,0 +1,214 @@
+<script>
+    //---------------------------------------------------------------------------------- LOAD TABLE
+    $(document).ready(function () {
+        loadClientList();
+        loadCounties();
+    });
+    //---------------------------------- START SHOW CLIENTS DATA TABLE
+    function loadClientList(){
+        google.script.run
+            .withSuccessHandler(dataClients =>{
+                if(dataClients.length > 0)
+                {
+                    $('#tableBodyClients').empty();
+                    $('#tableClients').DataTable({
+                        "autoWidht":false,
+                        "searching":true,
+                        "destroy":true,
+                        "scrollx":true,
+                        data: dataClients,
+                        columns:[
+                            { data: 'clientID', "visible": false},
+                            { data: 'Name'},
+                            { data: 'Email'},
+                            { data: 'Phone'},
+                            { data: 'Address'},
+                            { data: 'County'},
+                            { data: 'EirCode'},
+                            { data: 'MPRN'},
+                            { data: 'BuiltYear'},
+                            { data: 'Description'},
+                            /*
+                            { defaultContent: "<i class='bi bi-pencil-square button-edit me-3' role='button' data-clientId =" + dataClients.clientID +" ></i><i class='bi bi-trash3 button-delete me-3' role='button'></i>"}*/
+                            {
+                                data: null,
+                                bsortable: false,
+                                mRender: function(data, type, value){
+                                return "<i class='bi bi-pencil-square button-edit me-3' role='button' data-clientId =" + value["clientID"] +" ></i><i class='bi bi-trash3 button-delete me-3' role='button' data-clientId =" + value["clientID"] +"></i>";
+                            }
+                            }
+                        ]
+                    });
+                }
+            })
+            .readClientsNew();
+    }
+    //---------------------------------------------------------------------------------- OPEN ESPECIFIC MODAL
+    function showModal(id){
+        myModal = new bootstrap.Modal(document.getElementById(id), {
+                                                                keyboard: false
+                                                                })
+        myModal.show();
+    }
+    //-------------------------------------------------------------------------------- CLOSE ESPECIFIC MODAL
+    function hideModal(id){
+        $("#btnEditClient").css("display","none");
+        $("#btnSaveNewClient").css("display","block");
+
+        $("#"+id).modal("hide");
+    }
+
+    //-------------------------------------------------------------------------------- CLOSE CLIENT MODAL
+    function closeModalCustomer(){
+        var form = document.getElementById("createClient");
+        form.reset();
+        $("#modalAddClient").modal("hide");
+    }
+  
+    //-------------------------------------------------------------------------------- CLICK EDIT BUTTON ON TABLE AND SHOW CLIENT MODAL
+    $(document).on('click', 'tr .button-edit', function (event) {
+    
+        showModal("modalAddClient");
+        $("#btnEditClient").css("display","block");
+        $("#btnSaveNewClient").css("display","none");
+
+        var form = document.getElementById("createClient");
+
+        form.clientId.value = $(this).data("clientid");
+        form.clientName.value = $(this).parents("tr").find("td").eq(0).html();
+        form.clientEmail.value = $(this).parents("tr").find("td").eq(1).html();
+        form.clientPhoneNumber.value = $(this).parents("tr").find("td").eq(2).html();
+        form.clientAddress.value = $(this).parents("tr").find("td").eq(3).html();
+        form.clientCounty.value = $(this).parents("tr").find("td").eq(4).html();
+        form.clientEirCode.value = $(this).parents("tr").find("td").eq(5).html();
+        form.clientMPRNNumber.value = $(this).parents("tr").find("td").eq(6).html();
+        form.clientBuiltYear.value = $(this).parents("tr").find("td").eq(7).html();
+        form.clientDescription.value = $(this).parents("tr").find("td").eq(8).html();
+    
+    });
+    //-------------------------------------------------------------------------------- DELETE FUNCTIONS
+    $(document).on('click', 'tr .button-delete', function (event) {    
+    
+        showModal('modalDeleteClient');
+
+        var form = document.getElementById("deleteClient");
+
+        form.deleteClientId.value = $(this).data("clientid");
+        form.deleteClientName.value = $(this).parents("tr").find("td").eq(0).html();
+    
+    });
+
+    // Call function when show dialog btn is clicked
+    var overlayme = document.getElementById("dialog-deleteClientContainer");
+
+    function show_deleteClientDialog() {
+        /* A function to show the delete dialog window */
+        overlayme.style.display = "block";
+    }
+
+    // If confirm btn is clicked , the function confim() is executed
+    document.getElementById("btnConfirmDeleteClient").onclick = function(){confirmDeleteClient()};
+  
+    function confirmDeleteClient() {
+    /* code executed if confirm is clicked */
+        var clientId = $(this).data("clientId");    
+        var form = document.getElementById("deleteClient");
+
+        clientId = form.deleteClientId.value;
+
+        google.script.run
+                        .withSuccessHandler(result =>{
+                            overlayme.style.display = "none";
+                            $("#tableBodyClients").empty();
+                            loadClientList();
+                            closeModalDeleteCustomer();
+                        })
+                        .deleteClient(form);    
+    }
+
+    // If cancel btn is clicked , the function cancel() is executed
+  
+    document.getElementById("btnCancelDeleteClient").onclick = function(){cancelDeleteClient()};
+    function cancelDeleteClient() {
+    /* code executed if cancel is clicked */  
+        overlayme.style.display = "none";
+    }
+
+    //--------------------------------------------------------------------------------  CLOSE MODAL DELETE CUSTOMER
+    function closeModalDeleteCustomer(){
+        var form = document.getElementById("deleteClient");
+        form.reset();
+        $("#modalDeleteClient").modal("hide");
+    }
+
+    //-------------------------------------------------------------------------------- EDIT CLIENT
+    function editClient(){
+        var form = document.getElementById("createClient");
+
+        google.script.run
+                        .withSuccessHandler(result =>{
+                            form.reset();
+                            $("#tableBodyClients").empty();
+                            loadClientList();
+                            hideModal("modalAddClient");
+                        })
+                        .editClient(form);      
+    }
+
+    //------------------------------------------------------------- NAVTAB
+    function navbarClicked(e){
+        //console.log(e.target);
+        if(e.target.matches(".nav-link")){
+            //console.log(e.target.id);
+            activeNavbar(e.target.id);
+            buscarContenido(e.target.id);
+        }
+    }
+
+    function activeNavbar(navbarLinkId){
+        const navLiks = document.querySelectorAll(".nav-link");    
+        navLiks.forEach(navLink =>{
+            navLink.classList.remove("active");
+        } )
+
+        const activeNavLink = document.getElementById(navbarLinkId);
+        activeNavLink.classList.add("active");
+    }
+
+    function buscarContenido(page){
+        google.script.run
+            .withSuccessHandler(contenidoHTML =>{
+                document.getElementById("main-content").innerHTML = contenidoHTML;
+            })
+            .obtenerContenidoHTML(page);
+    }
+    //------------------------------------------------------------ END NAVTAB --- START ADD NEW CLIENT
+    function validateModalInfo(){
+        var form = document.getElementById("createClient");
+        google.script.run
+            .withSuccessHandler(result => {
+                form.reset();
+                $("#tableBodyClients").empty();
+                loadClientList();
+                hideModal("modalAddClient");
+            })
+            .addNewClient(form);
+    }
+    //---------------------------------- END ADD NEW CLIENT  --- START LOAD COUNTY
+    function loadCounties(){
+        google.script.run
+            .withSuccessHandler(dataCounties =>{
+                let selectCounty = document.getElementById("slcClientCounty");
+
+                dataCounties.forEach(county =>{
+                    const option = document.createElement("option");
+                    option.value = county[1]; 
+                    option.text = county[1]; 
+                    selectCounty.appendChild(option);
+                })
+            })
+            .readCounties();
+    }
+
+    //--------------------------------- END START SEARCH CLIENT ---
+</script>

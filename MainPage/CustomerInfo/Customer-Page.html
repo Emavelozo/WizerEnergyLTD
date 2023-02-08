@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?!= include("MainPage/CustomerInfo/CSS-Customer-Page"); ?>
+    <title>Customer Page</title>
+</head>
+<body>
+    <main class="main-content container w-85 mt-4" id="main-content">
+        <div class="containerHead">
+            <div class="mb-5 col-3">
+                <button type="button" class="btn btn-primary ml-4" onclick="showModal('modalAddClient')">
+                    <i class="bi bi-plus"></i> Add Client
+                </button> 
+            </div> 
+            <div class="mb-5">
+                <h1>Customer Info  </h1>
+            </div>                   
+        </div>
+        <!--  Clients Table -->
+        <table class="table table-hoover table-striped" id="tableClients">
+            <thead>
+                <tr>
+                    <th>clientID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>County</th>
+                    <th>Eir Code</th>
+                    <th>MPRN</th>
+                    <th>Built Year</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBodyClients">
+  
+            </tbody>
+        </table> 
+        <!-- END CLIENTS TABLE --> 
+    </main>
+    <!-- MODAL AddClient -->
+    <div class="modal fade" id="modalAddClient" tabindex="-1" aria-labelledby="modalAddClient" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTittle">Customer information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display:none;"></button>
+                </div>
+                <div class="modal-body">
+                    <form name="createClient" id="createClient">
+                        <div class="row mb-3">
+                            <div class="col" style="display:none">
+                                <input type="text" class="form-control" id="inpIdClient" name="clientId" placeholder="Id Client">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="inpClientName" name="clientName" placeholder="Client Name">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <input type="email" class="form-control" id="inpClientEmail" name="clientEmail" placeholder="client@example.com">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="inpClientPhoneNumber" name="clientPhoneNumber" placeholder="Phone Number">
+                            </div>                
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <input type="text" class="form-control" id="inpClientAddress" name="clientAddress" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <select class="form-select" aria-label="Select county" id="slcClientCounty" name="clientCounty">
+                                    <option selected>Select County...</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="inpClientEirCode" name="clientEirCode" placeholder="Eir Code">
+                            </div>                
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <input type="number" class="form-control" id="inpClientMPRNNumber" name="clientMPRNNumber" placeholder="MPRN Number">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="inpClientBuiltYear" name="clientBuiltYear" placeholder="Built Year">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <textarea class="form-control" id="txtClientDescription" name="clientDescription" rows="3" placeholder="Description...">
+                                </textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModalCustomer()">Close</button>
+                    <button type="button" class="btn btn-info" onclick="editClient()" style="display:none;" id="btnEditClient">Edit client</button>
+                    <button type="button" class="btn btn-primary" onclick="validateModalInfo()" id="btnSaveNewClient">Save client</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL DeleteClient -->
+    <div class="modal fade" id="modalDeleteClient" tabindex="-1" aria-labelledby="modalDeleteClient" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDeleteCustomerTittle">Customer information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display:none;"></button>
+                </div>
+                <div class="modal-body">
+                    <form name="deleteClient" id="deleteClient">
+                        <div class="row mb-3">
+                            <div class="col" style="display:none">
+                                <input type="text" class="form-control" id="inpDeleteIdClient" name="deleteClientId" placeholder="Id Client">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="inpDeleteClientName" name="deleteClientName" placeholder="Client Name">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <select class="form-select" aria-label="Select reason" id="slcDeleteReason" name="deleteReason">
+                                    <option selected>Select reason...</option>
+                                    <option value="1">Instalation is too Expensive</option>
+                                    <option value="2">Customer choosed other company</option>
+                                    <option value="3">Customer never answered</option>
+                                    <option value="4">Other</option>
+                                </select>
+                            </div>             
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <textarea class="form-control" id="txtDeleteClientDescription" name="deleteClientDescription" rows="3" placeholder="Description..."></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModalDeleteCustomer()">Close</button>
+                    <button type="button" class="btn btn-danger" onclick="show_deleteClientDialog()" id="btnDeleteClient">Delete client</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- POP UP DELETE CLIENT -->
+    <div class="overlay" id="dialog-deleteClientContainer">
+        <div class="popup">
+            <p>This client will be deleted. Continue ?</p>
+            <div class="text-right">
+                <button type="button" class="btn btn-secondary" id="btnCancelDeleteClient">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmDeleteClient">Ok</button>
+            </div>
+        </div>
+    </div>
+    <?!= include("MainPage/CustomerInfo/JS-Customer-Page"); ?>    
+</body>
+</html>
