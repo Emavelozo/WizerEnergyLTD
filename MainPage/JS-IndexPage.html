@@ -5,10 +5,7 @@
     function navbarClicked(e){
         //console.log(e.target);
         if(e.target.matches(".nav-link")){
-            //console.log(e.target.id);
             activeNavbar(e.target.id);
-            //getUrl(e);
-            //google.script.run.doGet(e);
             //buscarContenido(e.target.id);
         }
     }
@@ -22,7 +19,7 @@
         const activeNavLink = document.getElementById(navbarLinkId);
         activeNavLink.classList.add("active");
     }
-
+    /*
     function buscarContenido(page){
         
         console.log(page);
@@ -30,5 +27,6 @@
             .obtenerContenidoHTML(page);           
          
     }
+    */
     //------------------------------------------------------------ END NAVTAB --- START ADD NEW CLIENT
 </script>

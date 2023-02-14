@@ -6,62 +6,26 @@ var deletedClientsSheet = sSheetMatrix.getSheetByName("deletedCLIENTS");
 
 function doGet(e){ 
   let temp = "MainPage/IndexPage";
+
   if('temp' in e.parameters){    
     temp = e.parameters['temp'][0];
     console.log(temp);
   }
+
   try{
     console.log(temp);
 
     const html = HtmlService.createTemplateFromFile(temp);
+    console.log(html);
+
     var output = html.evaluate().setTitle("Wizer Energy LTD");
     output.addMetaTag('viewport','width = device-width, initial-select');
-
+    console.log(output);
     return output;
   }
   catch(err){
     return ContentService.createTextOutput(JSON.stringify(err));
   }
-  /*
-  var html = HtmlService.createTemplateFromFile("MainPage/IndexPage");
-  var output = html.evaluate().setTitle("Wizer Energy LTD");
-  output.addMetaTag('viewport','width = device-width, initial-select');
-  //console.log(output);
-  return output;
-  */
- /*
-  if(e.queryString !=='')
-  {
-    switch(e.target.id)
-    {
-      case "Customer-Page":
-        setPage("Customer-Page");
-        return HtmlService
-          .createTemplateFromFile("MainPage/CustomerInfo/CustomerPage")
-          .evaluate()
-          .addMetaTag('viewport','width = device-width, initial-select')
-          .setTitle("Wizer Energy LTD");
-        break;
-      default:
-        setPage("MainPage/IndexPage");
-        return HtmlService
-          .createTemplateFromFile("MainPage/IndexPage")
-          .evaluate()
-          .addMetaTag('viewport','width = device-width, initial-select')
-          .setTitle("Wizer Energy LTD");
-        break;
-    }
-  }
-  else
-  {
-    setPage("MainPage/IndexPage");
-    return HtmlService
-      .createTemplateFromFile("MainPage/IndexPage")
-      .evaluate()
-      .addMetaTag('viewport','width = device-width, initial-select')
-      .setTitle("Wizer Energy LTD");
-  }
-  */
 }
 
 function getScriptUrl(){
@@ -82,32 +46,6 @@ function includeHTML(fileName){
   return output;
 }
 
-function obtenerContenidoHTML(page){
-  //const contenidoHTML = HtmlService.createHtmlOutputFromFile(page).getContent();
-  console.log(page);
-
-  switch(page)
-    {
-      case "Customer-Page":
-        setPage("Customer-Page");
-        return HtmlService
-          .createTemplateFromFile("MainPage/CustomerInfo/Customer-Page")
-          .evaluate()
-          .addMetaTag('viewport','width = device-width, initial-select')
-          .setTitle("Wizer Energy LTD");
-        break;
-      default:
-        setPage("MainPage/IndexPage");
-        return HtmlService
-          .createTemplateFromFile("MainPage/IndexPage")
-          .evaluate()
-          .addMetaTag('viewport','width = device-width, initial-select')
-          .setTitle("Wizer Energy LTD");
-        break;
-    }  
-  //var contenidoHTML = HtmlService.createTemplateFromFile(urlPage).evaluate().getContent();
-  //return contenidoHTML;
-}
 // -----------------------------------------
 function uploadFiles(obj){
   
