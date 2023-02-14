@@ -1,12 +1,15 @@
 <script>
     document.getElementById("header-navbar").addEventListener("click",navbarClicked);
+
     //------------------------------------------------------------- NAVTAB
     function navbarClicked(e){
         //console.log(e.target);
         if(e.target.matches(".nav-link")){
             //console.log(e.target.id);
             activeNavbar(e.target.id);
-            buscarContenido(e.target.id);
+            //getUrl(e);
+            //google.script.run.doGet(e);
+            //buscarContenido(e.target.id);
         }
     }
 
@@ -21,12 +24,11 @@
     }
 
     function buscarContenido(page){
+        
         console.log(page);
-        google.script.run
-            .withSuccessHandler(contenidoHTML =>{
-                document.getElementById("main-content").innerHTML = contenidoHTML;
-            })
-            .obtenerContenidoHTML(page);
+        google.script.run            
+            .obtenerContenidoHTML(page);           
+         
     }
     //------------------------------------------------------------ END NAVTAB --- START ADD NEW CLIENT
 </script>

@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?!= include("MainPage/CustomerInfo/CSS-Customer-Page"); ?>
+    <?!= includeHTML("MainPage/CustomerInfo/CSS-Customer-Page"); ?>
+    <?!= includeHTML("MainPage/CSS-IndexPage"); ?>
     <title>Customer Page</title>
 </head>
 <body>
+    <!--    Insert header       -->
+    <?!= includeHeaderHTML("MainPage/Header-IndexPage"); ?>
+
     <main class="main-content container w-85 mt-4" id="main-content">
         <div class="containerHead">
             <div class="mb-5 col-3">
@@ -160,6 +164,9 @@
             </div>
         </div>
     </div>
-    <?!= include("MainPage/CustomerInfo/JS-Customer-Page"); ?>    
+    <!--    Insert Footer       -->
+    <?!= includeHTML("MainPage/Footer-IndexPage"); ?>
+
+    <?!= includeHTML("MainPage/CustomerInfo/JS-Customer-Page"); ?>    
 </body>
 </html>

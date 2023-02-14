@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base target="_top">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?!= includeHTML("MainPage/SalesInput/CSS-SalesInput-Page"); ?>
     <?!= includeHTML("MainPage/CSS-IndexPage"); ?>
+    <title>Sales</title>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
     <!--    Insert header       -->
     <?!= includeHeaderHTML("MainPage/Header-IndexPage"); ?>
-    <!--    Insert Main         -->
-    <?!= includeHTML("MainPage/Main-IndexPage"); ?>
+    <!--    Main content        -->
+    <main class="main-content container w-85 mt-4" id="main-content">
+        <h1>Sales</h1>
+    </main>
     <!--    Insert Footer       -->
     <?!= includeHTML("MainPage/Footer-IndexPage"); ?>
-    <!--    Insert JavaScript   -->
-    <?!= includeHTML("MainPage/JS-IndexPage"); ?>
+    <!--    Insert JS Sales Input Page       -->
+    <?!= includeHTML("MainPage/SalesInput/JS-SalesInput-Page"); ?>     
 </body>
 </html>
